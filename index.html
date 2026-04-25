@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback - Cósmico Negro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="overlay">
+<div class="card">
+
+<h2>💬 Feedback – CÓSMICO NEGRO</h2>
+<p class="top-text">Queremos saber sua opinião 👀</p>
+
+<form id="form">
+
+<h3>🎯 Sendo bem sincero, como você vê o clube hoje?</h3>
+<div class="custom-select">
+<div class="select-selected">Selecione</div>
+<div class="select-options">
+<div data-value="Muito bom">Muito bom</div>
+<div data-value="Bom">Bom</div>
+<div data-value="Mais ou menos">Mais ou menos</div>
+<div data-value="Ruim">Ruim</div>
+</div>
+<input type="hidden" name="🎯 Avaliação - Como você vê o clube hoje?" required>
+</div>
+
+<h3>⚠️ Você entra nas salas porque realmente quer ou só aparece às vezes?</h3>
+<div class="custom-select">
+<div class="select-selected">Selecione</div>
+<div class="select-options">
+<div data-value="Gosto de entrar">Gosto de entrar</div>
+<div data-value="Entro às vezes">Entro às vezes</div>
+<div data-value="Quase nunca">Quase nunca</div>
+<div data-value="Não tenho interesse">Não tenho interesse</div>
+</div>
+<input type="hidden" name="⚠️ Vontade - Participação real" required>
+</div>
+
+<h3>🎮 Com que frequência você participa das salas?</h3>
+<div class="custom-select">
+<div class="select-selected">Selecione</div>
+<div class="select-options">
+<div data-value="sempre">Sempre</div>
+<div data-value="as_vezes">Às vezes</div>
+<div data-value="raramente">Raramente</div>
+<div data-value="nunca">Nunca</div>
+</div>
+<input type="hidden" id="participacao" name="🎮 Participação - Frequência" required>
+</div>
+
+<h3>⏰ Qual seria o melhor horário pra você participar sem dificuldade?</h3>
+<input type="text" name="⏰ Horário ideal" placeholder="Ex: 20h, noite..." required>
+
+<div id="motivoBox" class="hidden">
+
+<h3>🚨 O que mais te faz NÃO querer entrar nas salas?</h3>
+
+<div class="custom-select">
+<div class="select-selected">Selecione</div>
+<div class="select-options">
+<div data-value="Falta de tempo">Falta de tempo</div>
+<div data-value="Não acho interessante">Não acho interessante</div>
+<div data-value="Ninguém conversa">Ninguém conversa</div>
+<div data-value="Não me sinto incluído">Não me sinto incluído</div>
+<div data-value="Outro">Outro</div>
+</div>
+<input type="hidden" name="🚨 Motivo - Não participação" id="motivo">
+</div>
+
+<textarea id="explicacao" name="📝 Motivo - Explicação"
+placeholder="Explica melhor 👀"></textarea>
+
+</div>
+
+<h3>💬 Na sua opinião, o clube é ativo ou meio parado?</h3>
+<div class="custom-select">
+<div class="select-selected">Selecione</div>
+<div class="select-options">
+<div data-value="Muito ativo">Muito ativo</div>
+<div data-value="Mais ou menos">Mais ou menos</div>
+<div data-value="Parado">Parado</div>
+</div>
+<input type="hidden" name="💬 Atividade do clube">
+</div>
+
+<h3>🎯 Os eventos realmente te dão vontade de participar?</h3>
+<div class="custom-select">
+<div class="select-selected">Selecione</div>
+<div class="select-options">
+<div data-value="Sim, muito">Sim, muito</div>
+<div data-value="Mais ou menos">Mais ou menos</div>
+<div data-value="Não">Não</div>
+</div>
+<input type="hidden" name="🎯 Interesse em eventos">
+</div>
+
+<textarea name="💡 Melhoria de eventos"
+placeholder="O que faria os eventos ficarem mais interessantes pra você?"></textarea>
+
+<h3>🚀 O que faria você voltar a participar de verdade?</h3>
+<textarea name="🚀 Voltar a participar" required></textarea>
+
+<h3>🧠 Na sua opinião, qual é o maior problema do clube hoje?</h3>
+<textarea name="🧠 Problema principal" required></textarea>
+
+<h3>👑 Se você fosse ADM por 1 dia, o que mudaria primeiro?</h3>
+<textarea name="👑 Ideia como ADM" required></textarea>
+
+<button id="btn" type="submit">Enviar 🚀</button>
+<p id="status"></p>
+
+</form>
+
+</div>
+</div>
+
+<script>
+
+const motivoBox = document.getElementById("motivoBox");
+
+document.querySelectorAll(".custom-select").forEach(select => {
+
+    const selected = select.querySelector(".select-selected");
+    const options = select.querySelector(".select-options");
+    const hiddenInput = select.querySelector("input");
+
+    selected.addEventListener("click", () => {
+        options.style.display = options.style.display === "block" ? "none" : "block";
+    });
+
+    options.querySelectorAll("div").forEach(option => {
+        option.addEventListener("click", () => {
+            selected.innerText = option.innerText;
+            hiddenInput.value = option.getAttribute("data-value");
+            options.style.display = "none";
+
+            if(hiddenInput.id === "participacao"){
+                if(["as_vezes","raramente","nunca"].includes(hiddenInput.value)){
+                    motivoBox.style.display = "block";
+                } else {
+                    motivoBox.style.display = "none";
+                }
+            }
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        if(!select.contains(e.target)){
+            options.style.display = "none";
+        }
+    });
+
+});
+
+const form = document.getElementById("form");
+const btn = document.getElementById("btn");
+const status = document.getElementById("status");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    btn.disabled = true;
+    btn.innerText = "Enviando...";
+
+    fetch("https://formspree.io/f/xeepknzj", {
+        method: "POST",
+        body: data,
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(() => {
+        status.innerText = "✅ Enviado!";
+        form.reset();
+    })
+    .catch(() => {
+        status.innerText = "❌ Erro ao enviar";
+        btn.disabled = false;
+        btn.innerText = "Enviar 🚀";
+    });
+});
+
+</script>
+
+</body>
+</html>
